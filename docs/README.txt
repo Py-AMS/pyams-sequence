@@ -24,9 +24,12 @@ What is PyAMS sequence?
 =======================
 
 PyAMS_sequence is a package used to handle generation of continuous sequences; in PyAMS, these
-sequences are handle to identify, for example, contents handle by workflows, all versions of a
+sequences are used to identify, for example, contents handled by workflows, all versions of a
 given content sharing the same identifier.
 
 These identifiers are then used to create references to internal contents; workflow management
 system then allows you to automatically reference the currently published version of a given
-content...
+content.
+
+Custom schemas fields and forms widgets are available to select internal references into
+content management interface.
