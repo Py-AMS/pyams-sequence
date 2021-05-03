@@ -30,7 +30,7 @@ from pyams_utils.registry import query_utility
 
 __docformat__ = 'restructuredtext'
 
-from pyams_sequence import _
+from pyams_sequence import _  # pylint: disable=ungrouped-imports
 
 
 TEST_MODE = sys.argv[-1].endswith('/test')

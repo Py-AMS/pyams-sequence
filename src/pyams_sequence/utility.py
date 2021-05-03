@@ -14,6 +14,7 @@
 
 This module defines main sequence utility class, and several events handlers;.
 """
+
 from hypatia.catalog import CatalogQuery
 from hypatia.interfaces import ICatalog
 from hypatia.query import Contains, Eq
@@ -23,7 +24,6 @@ from zope.schema.fieldproperty import FieldProperty
 
 from pyams_catalog.query import CatalogResultSet
 from pyams_i18n.interfaces import INegotiator
-from pyams_sequence.sequence import get_sequence_dict
 from pyams_sequence.interfaces import ISequentialIdTarget, ISequentialIntIds
 from pyams_sequence.workflow import get_last_version
 from pyams_utils.adapter import ContextAdapter, adapter_config
@@ -125,7 +125,7 @@ class SequentialIntIds(IntIds):
     def find_references(self, query, content_type=None, request=None):
         """Find internal references matching given query"""
         if not query:
-            return []
+            return
         if request is None:
             request = check_request()
         catalog = get_utility(ICatalog)
@@ -160,4 +160,5 @@ class SequentialIntIdsIndexLengthAdapter(ContextAdapter):
 
     @property
     def count(self):
+        """Sequence length getter"""
         return len(self.context)

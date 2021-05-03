@@ -40,7 +40,7 @@ def get_visible_version(content):
     versions = IWorkflowVersions(content, None)
     if versions is not None:
         workflow = IWorkflow(content)
-        visible_versions = versions.get_versions(workflow.visible_states, sort=True)
+        visible_versions = versions.get_versions(workflow.visible_states, sort=True)  # pylint: disable=assignment-from-no-return
         if visible_versions:
             return visible_versions[-1]
         return None
@@ -53,7 +53,7 @@ def get_visible_version(content):
 def get_version_in_state(content, state):
     """Check for versions in given status"""
     if IWorkflowVersion.providedBy(content) or IWorkflowManagedContent.providedBy(content):
-        versions = IWorkflowVersions(content).get_versions(state, sort=True)
+        versions = IWorkflowVersions(content).get_versions(state, sort=True)  # pylint: disable=assignment-from-no-return
         if versions:
             content = versions[-1]
     if ISequentialIdInfo(content, None) is not None:
@@ -66,7 +66,7 @@ def get_sequence_target(oid, state):
     sequence = get_utility(ISequentialIntIds)
     content = sequence.query_object_from_oid(oid)
     if IWorkflowVersion.providedBy(content) or IWorkflowManagedContent.providedBy(content):
-        versions = IWorkflowVersions(content).get_versions(state, sort=True)
+        versions = IWorkflowVersions(content).get_versions(state, sort=True)  # pylint: disable=assignment-from-no-return
         if versions:
             content = versions[0]
             return content

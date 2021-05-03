@@ -32,7 +32,7 @@ from pyams_zmi.table import TableElementEditor
 
 __docformat__ = 'restructuredtext'
 
-from pyams_sequence import _
+from pyams_sequence import _  # pylint: disable=ungrouped-imports
 
 
 @adapter_config(required=(ISequentialIntIds, IAdminLayer, Interface),

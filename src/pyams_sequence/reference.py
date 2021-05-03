@@ -78,10 +78,11 @@ class InternalReferenceMixin:
 
     @volatile_property
     def target(self):
-        """Target getter"""
+        """Default target getter"""
         return get_reference_target(self.reference)
 
     def get_target(self, state=None, request=None):
+        """Complete target getter"""
         if request is None:
             request = check_request()
         if (not state) and not IPyAMSUserLayer.providedBy(request):
