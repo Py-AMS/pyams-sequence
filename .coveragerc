@@ -1,0 +1,3 @@
+[run]
+source = src/pyams_sequence
+omit = src/pyams_sequence/tests/*
