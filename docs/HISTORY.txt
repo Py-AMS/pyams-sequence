@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.1.0
+-----
+ - updated REST api param name
+ - updated REST endpoint in internal reference selection widget
+ - added internal reference label formatter
+
 1.0.3
 -----
  - updated Pylint score

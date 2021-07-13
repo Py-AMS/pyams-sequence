@@ -139,12 +139,12 @@ Looking for contents
     >>> pprint(find_references(request))
     []
 
-    >>> request = DummyRequest(params={'query': '+b'})
+    >>> request = DummyRequest(params={'term': '+b'})
     >>> handle_site_before_traverse(BeforeTraverseEvent(app, request))
     >>> pprint(find_references(request))
     [{'id': 'AMS:000000000b', 'text': 'Content title (AMS: b)'}]
 
-    >>> request = DummyRequest(params={'query': 'b'})
+    >>> request = DummyRequest(params={'term': 'b'})
     >>> handle_site_before_traverse(BeforeTraverseEvent(app, request))
     >>> pprint(find_references(request))
     [{'id': 'AMS:000000000b', 'text': 'Content title (AMS: b)'}]
@@ -152,7 +152,7 @@ Looking for contents
 A REST API is also available to look for internal references:
 
     >>> from pyams_sequence.api.rest import find_references
-    >>> request = DummyRequest(params={'query': '+b'})
+    >>> request = DummyRequest(params={'term': '+b'})
     >>> handle_site_before_traverse(BeforeTraverseEvent(app, request))
     >>> pprint(find_references(request))
     {'results': [{'id': 'AMS:000000000b', 'text': 'Content title (AMS: b)'}]}
@@ -211,8 +211,10 @@ A dedicated form widget is available to handle selection of internal references:
             name="form.widgets.reference"
             class="form-control select2 select-widget required internalreferencefield-field"
             size="1"
-            data-ajax--url="/api/sequence/reference"
+            data-placeholder="No selected reference"
+            data-ajax--url="/api/sequence/references"
             data-minimum-input-length="2">
+            <option></option>
             <option id="form-widgets-reference-0"
                     value="AMS:000000000b"
                     selected="selected">Content title (AMS: b)</option>
@@ -247,9 +249,11 @@ match a catalog keyword index with this name:
             name="form.widgets.reference"
             class="form-control select2 select-widget required internalreferencefield-field"
             size="1"
-            data-ajax--url="/api/sequence/reference"
+            data-placeholder="No selected reference"
+            data-ajax--url="/api/sequence/references"
             data-ajax--params='{"content_type": "MyContent"}'
             data-minimum-input-length="2">
+            <option></option>
     </select>
     <input name="form.widgets.reference-empty-marker" type="hidden" value="1"/>
 
