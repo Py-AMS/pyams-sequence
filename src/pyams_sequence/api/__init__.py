@@ -30,7 +30,7 @@ __docformat__ = 'restructuredtext'
              renderer='json', xhr=True)
 def find_references(request):
     """Find all references matching given query"""
-    query = request.params.get('query')
+    query = request.params.get('term')
     if not query:
         return []
     sequence = get_utility(ISequentialIntIds)

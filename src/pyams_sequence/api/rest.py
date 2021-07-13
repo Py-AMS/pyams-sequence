@@ -38,11 +38,11 @@ TEST_MODE = sys.argv[-1].endswith('/test')
 
 class ReferencesSearchQuerySchema(MappingSchema):
     """Internal references search schema"""
-    query = SchemaNode(String(),
-                       title=_("References search string"),
-                       description=_("Query can be an internal reference OID, eventually "
-                                     "prefixed wit a \"+\", or a text query which should "
-                                     "match contents title"))
+    term = SchemaNode(String(),
+                      title=_("References search string"),
+                      description=_("Query can be an internal reference OID, eventually "
+                                    "prefixed with a \"+\", or a text query which should "
+                                    "match contents title"))
     content_type = SchemaNode(String(),
                               title=_("Content type"),
                               description=_("References search can be restricted to a given "
@@ -90,10 +90,10 @@ service = Service(name=REST_REFERENCES_SEARCH_ROUTE,
 def find_references(request):
     """Returns list of references matching given query"""
     if TEST_MODE:
-        query = request.params.get('query')
+        query = request.params.get('term')
         content_type = request.params.get('content_type')
     else:
-        query = request.validated.get('query')
+        query = request.validated.get('term')
         content_type = request.validated.get('content_type')
     if not query:
         return []
