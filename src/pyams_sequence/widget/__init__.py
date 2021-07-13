@@ -36,6 +36,8 @@ from pyams_utils.adapter import adapter_config
 
 __docformat__ = 'restructuredtext'
 
+from pyams_sequence import _
+
 
 def reference_term_factory(value, request):
     """Reference term factory"""
@@ -66,7 +68,8 @@ class InternalReferenceDataConverter(SequenceDataConverter):
 class InternalReferenceWidget(SelectWidget):
     """Internal reference widget"""
 
-    ajax_url = '/api/sequence/reference'
+    ajax_url = '/api/sequence/references'
+    placeholder = _("No selected reference")
 
     @property
     def ajax_params(self):
