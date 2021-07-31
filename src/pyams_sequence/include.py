@@ -15,6 +15,8 @@
 This module is used for Pyramid integration.
 """
 
+import re
+
 from pyams_sequence.interfaces import REST_REFERENCES_SEARCH_ROUTE
 
 
@@ -35,6 +37,6 @@ def include_package(config):
     try:
         import pyams_zmi  # pylint: disable=import-outside-toplevel,unused-import
     except ImportError:
-        config.scan(ignore='pyams_sequence.zmi')
+        config.scan(ignore=[re.compile(r'pyams_sequence\..*\.zmi\.?.*').search])
     else:
         config.scan()
