@@ -25,7 +25,7 @@ from pyams_sequence.interfaces import ISequentialIntIds
 from pyams_utils.adapter import adapter_config
 from pyams_utils.interfaces.intids import IIndexLength
 from pyams_zmi.form import AdminModalEditForm
-from pyams_zmi.interfaces import IAdminLayer
+from pyams_zmi.interfaces import IAdminLayer, IObjectLabel
 from pyams_zmi.interfaces.table import ITableElementEditor
 from pyams_zmi.table import TableElementEditor
 
@@ -33,6 +33,13 @@ from pyams_zmi.table import TableElementEditor
 __docformat__ = 'restructuredtext'
 
 from pyams_sequence import _  # pylint: disable=ungrouped-imports
+
+
+@adapter_config(required=(ISequentialIntIds, IAdminLayer, Interface),
+                provides=IObjectLabel)
+def sequence_label(context, request, view):
+    """Sequence label getter"""
+    return request.localizer.translate(_("Sequences manager"))
 
 
 @adapter_config(required=(ISequentialIntIds, IAdminLayer, Interface),
