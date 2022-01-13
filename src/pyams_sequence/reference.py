@@ -74,7 +74,18 @@ def get_reference_target(reference, state=None, request=None):
 class InternalReferenceMixin:
     """Internal reference mixin class"""
 
-    reference = None
+    _reference = None
+
+    @property
+    def reference(self):
+        """Reference getter"""
+        return self._reference
+
+    @reference.setter
+    def reference(self, value):
+        """Reference setter"""
+        self._reference = value
+        del self.target
 
     @volatile_property
     def target(self):

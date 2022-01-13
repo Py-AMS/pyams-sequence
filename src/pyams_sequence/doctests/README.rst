@@ -171,10 +171,24 @@ objects using their internal ID:
     >>> content = Content()
     >>> content.reference = info.hex_oid
 
+    >>> hasattr(content, '_v_target')
+    False
     >>> content.target is obj
+    True
+    >>> hasattr(content, '_v_target')
+    True
+    >>> content._v_target is obj
     True
     >>> content.get_target() is obj
     True
+
+Updating the internal reference automatically removes volatile property:
+
+    >>> content.reference = None
+    >>> hasattr(content, '_v_target')
+    False
+
+    >>> content.reference = info.hex_oid
 
     >>> from pyams_sequence.interfaces import IInternalReference
     >>> from zope.lifecycleevent import ObjectModifiedEvent, Attributes
