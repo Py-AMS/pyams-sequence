@@ -23,6 +23,7 @@ from cornice.validators import colander_querystring_validator
 from pyramid.httpexceptions import HTTPOk
 
 from pyams_security.interfaces.base import VIEW_SYSTEM_PERMISSION
+from pyams_security.rest import check_cors_origin, set_cors_headers
 from pyams_sequence.interfaces import ISequentialIntIds, REST_REFERENCES_SEARCH_ROUTE
 from pyams_sequence.sequence import get_sequence_dict
 from pyams_utils.registry import query_utility
@@ -83,9 +84,17 @@ service = Service(name=REST_REFERENCES_SEARCH_ROUTE,
                   description="Internal references management")
 
 
+@service.options(validators=(check_cors_origin, set_cors_headers),
+                 **service_params)
+def references_options(request):  # pylint: disable=unused-argument
+    """References service OPTIONS handler"""
+    return ''
+
+
 @service.get(permission=VIEW_SYSTEM_PERMISSION,
              schema=ReferencesSearchQuerySchema(),
-             validators=(colander_querystring_validator,),
+             validators=(check_cors_origin, colander_querystring_validator,
+                         set_cors_headers),
              **service_params)
 def find_references(request):
     """Returns list of references matching given query"""
