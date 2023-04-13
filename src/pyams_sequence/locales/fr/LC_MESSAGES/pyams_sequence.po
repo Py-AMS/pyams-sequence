@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE 1.0\n"
-"POT-Creation-Date: 2021-07-22 20:11+0200\n"
+"POT-Creation-Date: 2023-04-12 16:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,41 +100,9 @@ msgstr ""
 "directement suivi de l'identifiant du contenu que vous souhaitez associer, "
 "ou en entrant du texte correspondant au titre du contenu recherché..."
 
-#: src/pyams_sequence/api/rest.py:42
-msgid "References search string"
-msgstr "Critères de recherche"
-
-#: src/pyams_sequence/api/rest.py:43
-msgid ""
-"Query can be an internal reference OID, eventually prefixed with a \"+\", or "
-"a text query which should match contents title"
-msgstr ""
-"La recherche peut s'effectuer via une référence interne, éventuellement préfixée "
-"par un \"+\", ou via un texte contenu dans le titre des contenus"
-
-#: src/pyams_sequence/api/rest.py:47
-msgid "Content type"
-msgstr "Type de contenu"
-
-#: src/pyams_sequence/api/rest.py:48
-msgid "References search can be restricted to a given content type"
-msgstr "À indiquer lorsque la recherche doit être contrainte à un type de contenu spécifique"
-
-#: src/pyams_sequence/api/rest.py:56
-msgid "Reference ID"
-msgstr "ID de la référence"
-
-#: src/pyams_sequence/api/rest.py:58
-msgid "Reference title"
-msgstr "Titre"
-
-#: src/pyams_sequence/api/rest.py:68
-msgid "Results list"
-msgstr "Liste de résultats"
-
-#: src/pyams_sequence/api/rest.py:72
-msgid "Search results"
-msgstr "Résultats de la recherche"
+#: src/pyams_sequence/widget/__init__.py:72
+msgid "No selected reference"
+msgstr "Aucune référence sélectionnée"
 
 #: src/pyams_sequence/zmi/__init__.py:42
 msgid "Sequences manager"
@@ -148,6 +116,32 @@ msgstr "Générateur de séquences"
 msgid "Properties"
 msgstr "Propriétés"
 
-#: src/pyams_sequence/widget/__init__.py:72
-msgid "No selected reference"
-msgstr "Aucune référence sélectionnée"
+#~ msgid "References search string"
+#~ msgstr "Critères de recherche"
+
+#~ msgid ""
+#~ "Query can be an internal reference OID, eventually prefixed with a \"+\", "
+#~ "or a text query which should match contents title"
+#~ msgstr ""
+#~ "La recherche peut s'effectuer via une référence interne, éventuellement "
+#~ "préfixée par un \"+\", ou via un texte contenu dans le titre des contenus"
+
+#~ msgid "Content type"
+#~ msgstr "Type de contenu"
+
+#~ msgid "References search can be restricted to a given content type"
+#~ msgstr ""
+#~ "À indiquer lorsque la recherche doit être contrainte à un type de contenu "
+#~ "spécifique"
+
+#~ msgid "Reference ID"
+#~ msgstr "ID de la référence"
+
+#~ msgid "Reference title"
+#~ msgstr "Titre"
+
+#~ msgid "Results list"
+#~ msgstr "Liste de résultats"
+
+#~ msgid "Search results"
+#~ msgstr "Résultats de la recherche"

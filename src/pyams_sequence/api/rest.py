@@ -19,7 +19,7 @@ import sys
 
 from colander import MappingSchema, SchemaNode, SequenceSchema, String, drop
 from cornice import Service
-from cornice.validators import colander_querystring_validator
+from cornice.validators import colander_validator
 from pyramid.httpexceptions import HTTPOk
 
 from pyams_security.interfaces.base import VIEW_SYSTEM_PERMISSION
@@ -27,87 +27,88 @@ from pyams_security.rest import check_cors_origin, set_cors_headers
 from pyams_sequence.interfaces import ISequentialIntIds, REST_REFERENCES_SEARCH_ROUTE
 from pyams_sequence.sequence import get_sequence_dict
 from pyams_utils.registry import query_utility
+from pyams_utils.rest import BaseResponseSchema, STATUS, rest_responses
 
 
 __docformat__ = 'restructuredtext'
-
-from pyams_sequence import _  # pylint: disable=ungrouped-imports
 
 
 TEST_MODE = sys.argv[-1].endswith('/test')
 
 
-class ReferencesSearchQuerySchema(MappingSchema):
+class ReferencesSearchQuery(MappingSchema):
     """Internal references search schema"""
     term = SchemaNode(String(),
-                      title=_("References search string"),
-                      description=_("Query can be an internal reference OID, eventually "
-                                    "prefixed with a \"+\", or a text query which should "
-                                    "match contents title"))
+                      description="Terms search query; can be an internal reference OID, eventually "
+                                  "prefixed with a \"+\", or a text query which should "
+                                  "match contents title")
     content_type = SchemaNode(String(),
-                              title=_("Content type"),
-                              description=_("References search can be restricted to a given "
-                                            "content type"),
+                              description="Set content type to restrict references search",
                               missing=drop)
 
 
-class ReferenceResultSchema(MappingSchema):
+class Reference(MappingSchema):
     """Reference result schema"""
     id = SchemaNode(String(),
-                    description=_("Reference ID"))
+                    description="Reference ID")
     text = SchemaNode(String(),
-                      description=_("Reference title"))
+                      description="Reference title")
 
 
-class ReferencesSearchResults(SequenceSchema):
+class ReferencesList(SequenceSchema):
     """References search results"""
-    result = ReferenceResultSchema()
+    result = Reference()
 
 
-class ReferencesSearchResultsSchema(MappingSchema):
+class ReferencesSearchResults(BaseResponseSchema):
     """References search results schema"""
-    results = ReferencesSearchResults(description=_("Results list"))
+    results = ReferencesList(description="References search results list")
 
 
-search_responses = {
-    HTTPOk.code: ReferencesSearchResultsSchema(description=_("Search results")),
-}
-if TEST_MODE:
-    service_params = {}
-else:
-    service_params = {
-        'response_schemas': search_responses
-    }
-
-service = Service(name=REST_REFERENCES_SEARCH_ROUTE,
-                  pyramid_route=REST_REFERENCES_SEARCH_ROUTE,
-                  description="Internal references management")
+references_service = Service(name=REST_REFERENCES_SEARCH_ROUTE,
+                             pyramid_route=REST_REFERENCES_SEARCH_ROUTE,
+                             description="Internal references management")
 
 
-@service.options(validators=(check_cors_origin, set_cors_headers),
-                 **service_params)
+@references_service.options(validators=(check_cors_origin, set_cors_headers))
 def references_options(request):  # pylint: disable=unused-argument
     """References service OPTIONS handler"""
     return ''
 
 
-@service.get(permission=VIEW_SYSTEM_PERMISSION,
-             schema=ReferencesSearchQuerySchema(),
-             validators=(check_cors_origin, colander_querystring_validator,
-                         set_cors_headers),
-             **service_params)
+class ReferencesGetRequest(MappingSchema):
+    """References getter request"""
+    querystring = ReferencesSearchQuery()
+
+
+class ReferencesGetResponse(MappingSchema):
+    """References getter response"""
+    body = ReferencesSearchResults()
+
+
+references_get_responses = rest_responses.copy()
+references_get_responses[HTTPOk.code] = ReferencesGetResponse(
+    description="References search results")
+
+
+@references_service.get(permission=VIEW_SYSTEM_PERMISSION,
+                        schema=ReferencesGetRequest(),
+                        validators=(check_cors_origin, colander_validator, set_cors_headers),
+                        response_schemas=references_get_responses)
 def find_references(request):
     """Returns list of references matching given query"""
-    if TEST_MODE:
-        query = request.params.get('term')
-        content_type = request.params.get('content_type')
-    else:
-        query = request.validated.get('term')
-        content_type = request.validated.get('content_type')
+    params = request.params if TEST_MODE else request.validated
+    query = params.get('term')
     if not query:
-        return []
+        return {
+            'status': STATUS.ERROR.value,
+            'message': 'Missing arguments',
+            'results': []
+        }
+    content_type = params.get('content_type')
     sequence = query_utility(ISequentialIntIds)
     return {
+        'status': STATUS.SUCCESS.value,
         'results': sorted([
             get_sequence_dict(result)
             for result in sequence.find_references(query, content_type, request)

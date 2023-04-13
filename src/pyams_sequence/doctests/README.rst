@@ -21,6 +21,8 @@ This package is composed of a set of utility functions, usable into any Pyramid 
     >>> include_zodbconn(config)
     >>> from cornice import includeme as include_cornice
     >>> include_cornice(config)
+    >>> from cornice_swagger import includeme as include_swagger
+    >>> include_swagger(config)
     >>> from pyams_utils import includeme as include_utils
     >>> include_utils(config)
     >>> from pyams_site import includeme as include_site
@@ -155,7 +157,8 @@ A REST API is also available to look for internal references:
     >>> request = DummyRequest(params={'term': '+b'})
     >>> handle_site_before_traverse(BeforeTraverseEvent(app, request))
     >>> pprint(find_references(request))
-    {'results': [{'id': 'AMS:000000000b', 'text': 'Content title (AMS: b)'}]}
+    {'results': [{'id': 'AMS:000000000b', 'text': 'Content title (AMS: b)'}],
+     'status': 'success'}
 
 
 Sequences schema
@@ -233,7 +236,7 @@ A dedicated form widget is available to handle selection of internal references:
                     value="AMS:000000000b"
                     selected="selected">Content title (AMS: b)</option>
     </select>
-    <input name="form.widgets.reference-empty-marker" type="hidden" value="1"/>
+    <input name="form.widgets.reference-empty-marker" type="hidden" value="1" />
 
 You can filter internal references using a "content_type" field attribute; this should then
 match a catalog keyword index with this name:
@@ -269,7 +272,7 @@ match a catalog keyword index with this name:
             data-minimum-input-length="2">
             <option></option>
     </select>
-    <input name="form.widgets.reference-empty-marker" type="hidden" value="1"/>
+    <input name="form.widgets.reference-empty-marker" type="hidden" value="1" />
 
 Select options list is actually empty in this test because we don't have a testing catalog
 with "content_type" name!
