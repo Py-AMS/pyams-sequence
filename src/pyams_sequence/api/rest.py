@@ -97,7 +97,7 @@ references_get_responses[HTTPOk.code] = ReferencesGetResponse(
                         response_schemas=references_get_responses)
 def find_references(request):
     """Returns list of references matching given query"""
-    params = request.params if TEST_MODE else request.validated
+    params = request.params if TEST_MODE else request.validated.get('querystring', {})
     query = params.get('term')
     if not query:
         return {
