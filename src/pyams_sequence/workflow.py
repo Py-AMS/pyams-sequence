@@ -61,11 +61,11 @@ def get_version_in_state(content, state):
     return None
 
 
-def get_sequence_target(oid, state):
+def get_sequence_target(oid, state=None):
     """Get content matching given OID"""
     sequence = get_utility(ISequentialIntIds)
     content = sequence.query_object_from_oid(oid)
-    if IWorkflowVersion.providedBy(content) or IWorkflowManagedContent.providedBy(content):
+    if state and (IWorkflowVersion.providedBy(content) or IWorkflowManagedContent.providedBy(content)):
         versions = IWorkflowVersions(content).get_versions(state, sort=True)  # pylint: disable=assignment-from-no-return
         if versions:
             content = versions[0]
