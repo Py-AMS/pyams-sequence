@@ -17,16 +17,16 @@ This module provides references search function.
 
 from pyramid.view import view_config
 
-from pyams_security.interfaces.base import VIEW_SYSTEM_PERMISSION
+from pyams_security.interfaces.base import USE_INTERNAL_API_PERMISSION
 from pyams_sequence.interfaces import ISequentialIntIds
 from pyams_sequence.sequence import get_sequence_dict
 from pyams_utils.registry import get_utility
 
-
 __docformat__ = 'restructuredtext'
 
 
-@view_config(name='find-references.json', permission=VIEW_SYSTEM_PERMISSION,
+@view_config(name='find-references.json',
+             permission=USE_INTERNAL_API_PERMISSION,
              renderer='json', xhr=True)
 def find_references(request):
     """Find all references matching given query"""

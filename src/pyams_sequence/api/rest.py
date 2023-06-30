@@ -12,7 +12,7 @@
 
 """PyAMS_sequence.api.reference module
 
-This modules defines REST API used to search internal references.
+This module defines REST API used to search internal references.
 """
 
 import sys
@@ -22,7 +22,7 @@ from cornice import Service
 from cornice.validators import colander_validator
 from pyramid.httpexceptions import HTTPOk
 
-from pyams_security.interfaces.base import VIEW_SYSTEM_PERMISSION
+from pyams_security.interfaces.base import USE_INTERNAL_API_PERMISSION
 from pyams_security.rest import check_cors_origin, set_cors_headers
 from pyams_sequence.interfaces import ISequentialIntIds, REST_REFERENCES_SEARCH_ROUTE
 from pyams_sequence.sequence import get_sequence_dict
@@ -91,7 +91,7 @@ references_get_responses[HTTPOk.code] = ReferencesGetResponse(
     description="References search results")
 
 
-@references_service.get(permission=VIEW_SYSTEM_PERMISSION,
+@references_service.get(permission=USE_INTERNAL_API_PERMISSION,
                         schema=ReferencesGetRequest(),
                         validators=(check_cors_origin, colander_validator, set_cors_headers),
                         response_schemas=references_get_responses)
