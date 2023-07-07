@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.2.4
+-----
+ - REST API update
+ - updated permissions
+ - updated sequence target getter
+
 1.2.3
 -----
  - added support for Python 3.10 and 3.11
