@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.0.0
+-----
+ - migrated to Pyramid 2.0
+
 1.2.4
 -----
  - REST API update
