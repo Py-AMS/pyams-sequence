@@ -127,4 +127,5 @@ def handle_workflow_transition(event):
         catalog = get_utility(ICatalog)
         params = Eq(catalog['link_reference'], sequence_info.hex_oid)
         for result in CatalogResultSet(CatalogQuery(catalog).query(params)):
-            del result.target
+            if IInternalReference.providedBy(result):
+                del result.target
