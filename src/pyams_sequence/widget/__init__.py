@@ -105,6 +105,7 @@ class InternalReferencesListWidget(InternalReferenceWidget):
     """Internal references list widget"""
 
     multiple = 'multiple'
+    klass = 'sortable'
 
 
 @adapter_config(required=(IInternalReferencesListField, IFormLayer),
