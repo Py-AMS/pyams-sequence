@@ -17,7 +17,7 @@ This module is used for Pyramid integration.
 
 import re
 
-from pyams_sequence.interfaces import REST_REFERENCES_SEARCH_ROUTE
+from pyams_sequence.interfaces import REST_REFERENCES_SEARCH_PATH, REST_REFERENCES_SEARCH_ROUTE
 
 
 __docformat__ = 'restructuredtext'
@@ -31,8 +31,8 @@ def include_package(config):
 
     # register new REST API routes
     config.add_route(REST_REFERENCES_SEARCH_ROUTE,
-                     config.registry.settings.get('pyams.sequence.rest_references_route',
-                                                  '/api/sequence/references'))
+                     config.registry.settings.get(f'{REST_REFERENCES_SEARCH_ROUTE}_route.path',
+                                                  REST_REFERENCES_SEARCH_PATH))
 
     try:
         import pyams_zmi  # pylint: disable=import-outside-toplevel,unused-import

@@ -27,7 +27,11 @@ __docformat__ = 'restructuredtext'
 from pyams_sequence import _
 
 
-REST_REFERENCES_SEARCH_ROUTE = 'sequence.rest.references'
+REST_REFERENCES_SEARCH_ROUTE = 'pyams_sequence.rest.references'
+'''References search API route name'''
+
+REST_REFERENCES_SEARCH_PATH = '/api/sequence/references'
+'''References search API default path'''
 
 
 class ISequentialIntIds(Interface):
@@ -131,6 +135,9 @@ class IInternalReferencesList(IAttributeAnnotatable):
     references = InternalReferencesListField(title=_("Internal references"),
                                              description=_("List of internal references"),
                                              required=False)
+
+    use_references_for_views = Attribute("Boolean attribute used to specify if internal references should "
+                                         "be used as views context references")
 
     def get_targets(self, state=None):
         """Get iterator over targets from internal references"""

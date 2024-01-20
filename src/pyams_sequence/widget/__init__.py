@@ -26,6 +26,7 @@ from pyams_form.interfaces import IDataConverter
 from pyams_form.interfaces.widget import IFieldWidget
 from pyams_form.widget import FieldWidget
 from pyams_layer.interfaces import IFormLayer
+from pyams_sequence.interfaces import REST_REFERENCES_SEARCH_PATH, REST_REFERENCES_SEARCH_ROUTE
 from pyams_sequence.reference import get_reference_target
 from pyams_sequence.schema import IInternalReferenceField, IInternalReferencesListField
 from pyams_sequence.sequence import get_sequence_dict
@@ -68,8 +69,13 @@ class InternalReferenceDataConverter(SequenceDataConverter):
 class InternalReferenceWidget(SelectWidget):
     """Internal reference widget"""
 
-    ajax_url = '/api/sequence/references'
     placeholder = _("No selected reference")
+
+    @property
+    def ajax_url(self):
+        """AJAX URL getter"""
+        return self.request.registry.settings.get(f'{REST_REFERENCES_SEARCH_ROUTE}_route.path',
+                                                  REST_REFERENCES_SEARCH_PATH)
 
     @property
     def ajax_params(self):
