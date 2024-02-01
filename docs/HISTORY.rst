@@ -1,6 +1,13 @@
 Changelog
 =========
 
+2.0.1
+-----
+ - updated workflow transition handler to avoid references from broken objects
+ - updated REST API route name and configuration setting name
+ - added sortable class to internal references input widget
+ - updated Buildout configuration
+
 2.0.0
 -----
  - migrated to Pyramid 2.0
