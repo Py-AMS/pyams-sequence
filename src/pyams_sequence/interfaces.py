@@ -72,7 +72,7 @@ class ISequentialIntIds(Interface):
     def query_object_from_oid(self, oid):
         """Query object with given OID"""
 
-    def find_references(self, query, content_type=None, request=None):
+    def find_references(self, query, content_type=None, request=None, parent=None):
         """Find references matching given query"""
 
 

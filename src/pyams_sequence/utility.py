@@ -20,6 +20,7 @@ from hypatia.interfaces import ICatalog
 from hypatia.query import Contains, Eq
 from zope.interface import Invalid
 from zope.intid import IntIds
+from zope.intid.interfaces import IIntIds
 from zope.schema.fieldproperty import FieldProperty
 
 from pyams_catalog.query import CatalogResultSet
@@ -28,15 +29,14 @@ from pyams_sequence.interfaces import ISequentialIdTarget, ISequentialIntIds
 from pyams_sequence.workflow import get_last_version
 from pyams_utils.adapter import ContextAdapter, adapter_config
 from pyams_utils.factory import factory_config
-
-
-__docformat__ = 'restructuredtext'
-
-from pyams_sequence import _  # pylint: disable=ungrouped-imports
 from pyams_utils.interfaces.intids import IIndexLength
 from pyams_utils.list import unique
 from pyams_utils.registry import get_utility
 from pyams_utils.request import check_request
+
+__docformat__ = 'restructuredtext'
+
+from pyams_sequence import _  # pylint: disable=ungrouped-imports
 
 
 @factory_config(ISequentialIntIds)
@@ -122,7 +122,7 @@ class SequentialIntIds(IntIds):
         internal_id = self.get_internal_id(oid)
         return self.queryObject(internal_id)
 
-    def find_references(self, query, content_type=None, request=None):
+    def find_references(self, query, content_type=None, request=None, parent=None):
         """Find internal references matching given query"""
         if not query:
             return
@@ -148,6 +148,9 @@ class SequentialIntIds(IntIds):
             params = query_params
         if content_type:
             params &= Eq(catalog['content_type'], content_type)
+        if parent is not None:
+            intids = get_utility(IIntIds)
+            params &= Eq(catalog['parents'], intids.register(parent))
         yield from unique(filter(lambda x: x is not None,
                                  map(get_last_version,
                                      CatalogResultSet(CatalogQuery(catalog).query(params)))))
