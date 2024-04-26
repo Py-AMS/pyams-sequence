@@ -15,6 +15,7 @@
 This module defines internal references widgets interfaces.
 """
 
+from zope.interface import Attribute
 from pyams_skin.interfaces.widget import IDynamicSelectWidget
 
 
@@ -24,6 +25,10 @@ __docformat__ = 'restructuredtext'
 class IInternalReferenceWidget(IDynamicSelectWidget):
     """Internal reference widget"""
 
+    ajax_url = Attribute("AJAX search endpoint URL")
+
 
 class IInternalReferencesListWidget(IDynamicSelectWidget):
     """Internal references list widget"""
+
+    ajax_url = Attribute("AJAX search endpoint URL")

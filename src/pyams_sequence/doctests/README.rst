@@ -277,6 +277,22 @@ match a catalog keyword index with this name:
 Select options list is actually empty in this test because we don't have a testing catalog
 with "content_type" name!
 
+You can set widget target URL, for example from an "update_widgets" form method:
+
+    >>> form.widgets['reference'].ajax_url = '/context/get-references.json'
+    >>> print(form.widgets['reference'].render())
+    <select id="form-widgets-reference"
+            name="form.widgets.reference"
+            class="form-control select2 select-widget required internalreferencefield-field"
+            size="1"
+            data-placeholder="No selected reference"
+            data-ajax--url="/context/get-references.json"
+            data-ajax--params='{"content_type": "MyContent"}'
+            data-minimum-input-length="2">
+            <option></option>
+    </select>
+    <input name="form.widgets.reference-empty-marker" type="hidden" value="1" />
+
 
 Workflow related functions
 --------------------------

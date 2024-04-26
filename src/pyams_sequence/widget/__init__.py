@@ -69,13 +69,19 @@ class InternalReferenceDataConverter(SequenceDataConverter):
 class InternalReferenceWidget(SelectWidget):
     """Internal reference widget"""
 
+    _ajax_url = None
     placeholder = _("No selected reference")
 
     @property
     def ajax_url(self):
         """AJAX URL getter"""
-        return self.request.registry.settings.get(f'{REST_REFERENCES_SEARCH_ROUTE}_route.path',
-                                                  REST_REFERENCES_SEARCH_PATH)
+        return self._ajax_url or self.request.registry.settings.get(f'{REST_REFERENCES_SEARCH_ROUTE}_route.path',
+                                                                    REST_REFERENCES_SEARCH_PATH)
+
+    @ajax_url.setter
+    def ajax_url(self, value):
+        """AJAX URL setter"""
+        self._ajax_url = value
 
     @property
     def ajax_params(self):
