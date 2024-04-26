@@ -95,9 +95,9 @@ references_get_responses[HTTPOk.code] = ReferencesGetResponse(
                         schema=ReferencesGetRequest(),
                         validators=(check_cors_origin, colander_validator, set_cors_headers),
                         response_schemas=references_get_responses)
-def find_references(request):
+def find_references(request, parent=None, validate=True):
     """Returns list of references matching given query"""
-    params = request.params if TEST_MODE else request.validated.get('querystring', {})
+    params = request.params if (TEST_MODE or not validate) else request.validated.get('querystring', {})
     query = params.get('term')
     if not query:
         return {
@@ -111,6 +111,6 @@ def find_references(request):
         'status': STATUS.SUCCESS.value,
         'results': sorted([
             get_sequence_dict(result)
-            for result in sequence.find_references(query, content_type, request)
+            for result in sequence.find_references(query, content_type, request, parent)
         ], key=lambda x: x['text'])
     }
