@@ -28,7 +28,7 @@ __docformat__ = 'restructuredtext'
 @view_config(name='find-references.json',
              permission=USE_INTERNAL_API_PERMISSION,
              renderer='json', xhr=True)
-def find_references(request):
+def find_references(request, parent=None):
     """Find all references matching given query"""
     query = request.params.get('term')
     if not query:
@@ -36,7 +36,6 @@ def find_references(request):
     sequence = get_utility(ISequentialIntIds)
     return sorted([
         get_sequence_dict(result)
-        for result in sequence.find_references(query,
-                                               request.params.get('content_type'),
-                                               request)
+        for result in sequence.find_references(query, request.params.get('content_type'),
+                                               request, parent)
     ], key=lambda x: x['text'])
