@@ -1,6 +1,10 @@
 Changelog
 =========
 
+2.1.0
+-----
+ - added optional arguments to references finder to check parent and disable params validation
+
 2.0.1
 -----
  - updated workflow transition handler to avoid references from broken objects
